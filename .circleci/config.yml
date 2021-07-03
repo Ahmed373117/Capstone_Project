@@ -14,7 +14,21 @@ jobs:
           command: |
             sudo apt-get install tidy -y
             tidy -q -e *.html
+   Building Docker Image: 
+    machine: true
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Docker-configuration
+          command: |
+            docker login -u ${DOCKER_ID} -p ${DOCKER_PASSWORD}
+            docker build -t ahmedadelelshorafa/capstoneproject .
+            docker push ahmedadelelshorafa/capstoneproject
 workflows:
   deployment:
     jobs:
       - Testing HTML Validity
+      - Building Docker Image:
+          requires:
+            - "Testing HTML Validity"
