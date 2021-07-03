@@ -80,13 +80,13 @@ workflows:
           requires:
             - "Testing HTML Validity"
       - aws-eks/create-cluster:
-          cluster-name: capstoneproject2
+          cluster-name: capstoneproject3
       - create-deployment:
-          cluster-name: capstoneproject2
+          cluster-name: capstoneproject3
           requires:
             - aws-eks/create-cluster
       - aws-eks/update-container-image:
-          cluster-name: capstoneproject2
+          cluster-name: capstoneproject3
           container-image-updates: capstoneproject=ahmedadelelshorafa/capstoneproject
           post-steps:
               - kubernetes/delete-resource:
@@ -98,7 +98,7 @@ workflows:
               - create-deployment
           resource-name: deployment/capstoneproject
       - test-cluster:
-          cluster-name: capstoneproject
+          cluster-name: capstoneproject3
           requires:
             - aws-eks/update-container-image   
       - Switch Deployment:
