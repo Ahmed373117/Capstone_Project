@@ -58,7 +58,16 @@ jobs:
           command: |
             kubectl get svc
             kubectl get nodes
-            kubectl get deployment 
+            kubectl get deployment
+  Switch Deployment:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Deleting previous Deployment
+          command: |
+            aws ec2 terminate-instances --instance-ids  i-0ec5bb8fff9de43d9          
 orbs:
   aws-eks: circleci/aws-eks@1.0.3
   kubernetes: circleci/kubernetes@0.11.2            
@@ -78,7 +87,7 @@ workflows:
             - aws-eks/create-cluster
       - aws-eks/update-container-image:
           cluster-name: capstoneproject
-          container-image-updates: capstone=ahmedadelelshorafa/capstoneproject
+          container-image-updates: capstoneproject=ahmedadelelshorafa/capstoneproject
           post-steps:
               - kubernetes/delete-resource:
                   resource-names: capstoneproject
@@ -92,3 +101,6 @@ workflows:
           cluster-name: capstoneproject
           requires:
             - aws-eks/update-container-image   
+      - Switch Deployment:
+          requires:
+            - test-cluster              
