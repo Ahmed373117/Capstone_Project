@@ -14,7 +14,7 @@ jobs:
           command: |
             sudo apt-get install tidy -y
             tidy -q -e *.html
-   Building Docker Image: 
+  Building Docker Image: 
     machine: true
     working_directory: ~/app
     steps:
