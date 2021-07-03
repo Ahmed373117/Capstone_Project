@@ -1,1 +1,20 @@
+version: 2.1
 
+jobs:
+  Testing HTML Validity:
+    docker:
+      - image: circleci/python:3.7.3-stretch
+      
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: Testing HTML Validity
+          command: |
+            sudo apt-get install tidy -y
+            tidy -q -e *.html
+workflows:
+  deployment:
+    jobs:
+      - Testing HTML Validity
